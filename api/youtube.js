@@ -1,27 +1,58 @@
 export default async function handler(req, res) {
   try {
     const { url } = req.query;
-    if(!url) return res.status(400).json({ error: 'URL required' });
 
-    const apiUrl = 'https://p.oceansaver.in/api/youtube?url=' + encodeURIComponent(url);
-    const r = await fetch(apiUrl);
-    if(!r.ok) return res.status(502).json({ error: 'YouTube public API error' });
-    const data = await r.json();
-
-    // normalize into { title, thumbnail, author, video: [{quality, url}], audio: [{quality, url}] }
-    const out = { title: data.title || data.meta?.title || '', thumbnail: data.thumbnail || data.image || '', author: data.author || data.uploader || '' };
-    out.video = [];
-    out.audio = [];
-    if(Array.isArray(data.video)) data.video.forEach(v=>{ if(v.url) out.video.push({quality: v.quality || v.quality_name || v.format || 'video', url: v.url}); });
-    if(Array.isArray(data.audio)) data.audio.forEach(a=>{ if(a.url) out.audio.push({quality: a.quality || a.format || 'audio', url: a.url}); });
-
-    // fallback: if data.formats present
-    if(out.video.length===0 && Array.isArray(data.formats)){
-      data.formats.forEach(f=>{ if(f.url) out.video.push({quality: f.quality || f.qualityLabel || 'video', url: f.url}); });
+    if (!url) {
+      return res.status(400).json({ error: "URL is required" });
     }
 
-    return res.status(200).json(out);
-  } catch (err) {
-    return res.status(500).json({ error: 'YouTube server error', detail: err.message });
+    // STEP 1 — Search video (HTTPS ✓)
+    const search = await fetch("https://api.yt5s.io/api/ajaxSearch/index", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
+      body: new URLSearchParams({
+        q: url,
+        vt: "mp4"
+      })
+    });
+
+    const data = await search.json();
+
+    if (!data.vid) {
+      return res.status(500).json({ error: "Video not found" });
+    }
+
+    // Ambil kualitas terbaik
+    const key =
+      data.links?.mp4?.["137"]?.k || // 1080p
+      data.links?.mp4?.["22"]?.k ||  // 720p
+      data.links?.mp4?.["18"]?.k;    // fallback 360p
+
+    // STEP 2 — Convert to direct URL
+    const convert = await fetch("https://api.yt5s.io/api/ajaxConvert/convert", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
+      body: new URLSearchParams({
+        vid: data.vid,
+        k: key
+      })
+    });
+
+    const file = await convert.json();
+
+    return res.status(200).json({
+      title: data.title,
+      thumbnail: data.thumbnail,
+      downloadUrl: file.dlink,
+      quality: file.fquality || "default",
+      size: file.fsize || "unknown"
+    });
+
+  } catch (e) {
+    return res.status(500).json({ error: "YouTube API error", detail: e.message });
   }
 }
