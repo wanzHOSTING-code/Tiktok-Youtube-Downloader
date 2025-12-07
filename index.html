@@ -69,7 +69,7 @@ header{text-align:center;color:#fff;padding:26px 0}
     <div class="card">
       <div class="section-title"><i class="fas fa-info-circle"></i> Informasi</div>
       <div style="color:#4a5568">
-        <p>Gunakan dengan bijak. Masukkan link TikTok atau YouTube. YouTube formats ditarik dari API publik.</p>
+        <p>Gunakan dengan bijak. Masukkan link TikTok atau YouTube. YouTube formats ditarik dari API publik oceansaver.</p>
       </div>
     </div>
   </div>
@@ -156,7 +156,6 @@ header{text-align:center;color:#fff;padding:26px 0}
       if(platform==='tiktok'){
         if(!/tiktok\.com|vt\.tiktok\.com/.test(link)) throw new Error('Link TikTok tidak valid');
         const api = await fetchTikTok(link);
-        // expected: description, author.nickname, cover, downloadUrl
         thumb.src = api.cover || '';
         titleEl.innerText = api.description || 'Video TikTok';
         descEl.innerText = api.author?.nickname || '';
@@ -164,13 +163,15 @@ header{text-align:center;color:#fff;padding:26px 0}
       } else {
         if(!/youtu\.be|youtube\.com/.test(link)) throw new Error('Link YouTube tidak valid');
         const api = await fetchYT(link);
-        // api expected to return: title, thumbnail, formats [{quality, url}]
+        // expected response from oceansaver: title, thumbnail, video (array), audio (array)
+        const formats = [];
+        if(Array.isArray(api.video)) api.video.forEach(v=>{ if(v.url) formats.push({quality: v.quality || v.quality_name || v.qualityLabel || v.label || 'video', url: v.url}); });
+        if(Array.isArray(api.audio)) api.audio.forEach(a=>{ if(a.url) formats.push({quality: a.quality || a.label || 'audio', url: a.url}); });
+        if(formats.length===0) throw new Error('Tidak ada format tersedia dari YouTube API');
         thumb.src = api.thumbnail || '';
         titleEl.innerText = api.title || 'YouTube Video';
-        descEl.innerText = api.author || api.uploader || '';
-        const fmts = api.formats && Array.isArray(api.formats) ? api.formats : (api.formats_list || []);
-        if(!fmts || fmts.length===0) throw new Error('Tidak ada format tersedia');
-        renderFormats(fmts);
+        descEl.innerText = api.author || '';
+        renderFormats(formats);
       }
       result.style.display='block';
       showSuccess('Video berhasil diproses!');
