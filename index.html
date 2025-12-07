@@ -1,262 +1,256 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Video Downloader Pro - TikTok & YouTube</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #333;
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container { max-width: 1200px; margin: auto; }
-
-        header { text-align: center; padding: 30px 0; color: white; }
-        header h1 { font-size: 2.8rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-
-        .logo { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .logo i { font-size: 3rem; color: white; }
-
-        .main-content { display: flex; flex-wrap: wrap; gap: 30px; margin-bottom: 40px; }
-
-        .download-section, .info-section {
-            flex: 1;
-            min-width: 300px;
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.8rem;
-            color: #4a5568;
-            margin-bottom: 20px;
-        }
-        .section-title i { color: #667eea; }
-
-        label { font-weight: 600; color: #4a5568; margin-bottom: 8px; display: block; }
-
-        .platform-selector { display: flex; gap: 10px; margin-bottom: 20px; }
-        .platform-btn {
-            flex: 1; padding: 12px; background: #f7fafc;
-            border: 2px solid #e2e8f0; border-radius: 10px;
-            cursor: pointer; font-weight: 600; display: flex;
-            gap: 10px; justify-content: center; transition: 0.3s;
-        }
-        .platform-btn.active { background: #667eea; color: white; border-color: #667eea; }
-
-        .url-input {
-            width: 100%; padding: 15px; border-radius: 10px;
-            border: 2px solid #e2e8f0; font-size: 1rem;
-        }
-        .url-input:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.3);
-            outline: none;
-        }
-
-        .download-btn {
-            width: 100%; padding: 16px;
-            border: none; margin-top: 15px;
-            border-radius: 10px; color: white;
-            background: linear-gradient(to right,#667eea,#764ba2);
-            font-size: 1.1rem; font-weight: 600;
-            cursor: pointer; display: flex;
-            justify-content: center; gap: 10px;
-            transition: 0.3s;
-        }
-        .download-btn:hover { transform: translateY(-3px); }
-
-        .alert { display: none; padding: 15px; border-radius: 10px; margin-top: 20px; }
-        .alert.success { background: #d4edda; color: #155724; }
-        .alert.error { background: #f8d7da; color: #721c24; }
-
-        .loading { text-align: center; display: none; margin-top: 20px; }
-        .spinner {
-            width: 40px; height: 40px;
-            border-radius: 50%;
-            border: 4px solid rgba(0,0,0,0.1);
-            border-left-color: #667eea;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 10px;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        .result-section {
-            background: white; margin-top: 30px;
-            border-radius: 15px; display: none;
-            padding: 30px; box-shadow: 0 15px 30px rgba(0,0,0,0.15);
-        }
-
-        .video-preview img { width: 100%; border-radius: 10px; }
-
-        .download-options { display: grid; gap: 15px; margin-top: 20px; }
-        .option-btn {
-            padding: 15px; background: #f7fafc;
-            border: 2px solid #e2e8f0; border-radius: 10px;
-            display: flex; justify-content: space-between; transition: 0.2s;
-            cursor: pointer;
-        }
-        .option-btn:hover { border-color: #667eea; background: #edf2f7; }
-
-        footer { text-align: center; color: white; margin-top: 30px; }
-
+        *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Tahoma,Helvetica,Arial,sans-serif}
+        body{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#333;min-height:100vh;padding:20px}
+        .container{max-width:1200px;margin:0 auto}
+        header{text-align:center;padding:30px 0;color:#fff}
+        header h1{font-size:2.6rem;text-shadow:2px 2px 4px rgba(0,0,0,0.2)}
+        .logo{display:flex;justify-content:center;gap:15px;margin-bottom:12px}
+        .logo i{font-size:2.6rem;color:#fff}
+        .main-content{display:flex;flex-wrap:wrap;gap:30px;margin-bottom:40px}
+        .download-section,.info-section{flex:1;min-width:300px;background:#fff;border-radius:15px;padding:30px;box-shadow:0 15px 30px rgba(0,0,0,0.15)}
+        .section-title{display:flex;align-items:center;gap:10px;font-size:1.6rem;color:#4a5568;margin-bottom:16px}
+        .platform-selector{display:flex;gap:10px;margin-bottom:16px}
+        .platform-btn{flex:1;padding:10px 12px;border-radius:8px;border:2px solid #e2e8f0;background:#f7fafc;cursor:pointer;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px;transition:0.2s}
+        .platform-btn.active{background:#667eea;color:#fff;border-color:#667eea}
+        .url-input{width:100%;padding:14px;border-radius:10px;border:2px solid #e2e8f0;font-size:1rem}
+        .download-btn{width:100%;padding:14px;margin-top:12px;border-radius:10px;border:none;background:linear-gradient(90deg,#667eea,#764ba2);color:#fff;font-weight:700;cursor:pointer}
+        .alert{display:none;padding:12px;border-radius:8px;margin-top:12px}
+        .alert.success{background:#d4edda;color:#155724}
+        .alert.error{background:#f8d7da;color:#721c24}
+        .loading{text-align:center;display:none;margin-top:14px}
+        .loader-keren{width:72px;height:72px;border-radius:50%;position:relative;margin:0 auto 10px}
+        .loader-keren:before,.loader-keren:after{content:"";position:absolute;inset:0;border-radius:50%;border:4px solid rgba(255,255,255,0.7);animation:pulse 1.4s infinite ease-out}
+        .loader-keren:after{animation-delay:.7s}
+        @keyframes pulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.6);opacity:0}}
+        .result-section{background:#fff;border-radius:15px;padding:24px;margin-top:20px;display:none;box-shadow:0 15px 30px rgba(0,0,0,0.12)}
+        .video-preview{max-width:320px;margin:0 auto 18px;border-radius:10px;overflow:hidden}
+        .video-preview img{width:100%;display:block}
+        .download-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:14px}
+        .option-btn{background:#f7fafc;border:2px solid #e2e8f0;border-radius:10px;padding:12px;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+        .option-btn:hover{background:#edf2f7;border-color:#667eea}
+        footer{text-align:center;color:#fff;margin-top:30px}
+        @media(max-width:768px){.main-content{flex-direction:column}}
     </style>
 </head>
 <body>
-
 <div class="container">
+    <header>
+        <div class="logo"><i class="fas fa-video"></i><i class="fas fa-download"></i></div>
+        <h1>Video Downloader Pro</h1>
+        <p style="color:rgba(255,255,255,0.9);margin-top:6px">Download TikTok & YouTube tanpa watermark — cepat & gratis.</p>
+    </header>
 
-<header>
-    <div class="logo">
-        <i class="fas fa-video"></i>
-        <i class="fas fa-download"></i>
+    <div class="main-content">
+        <div class="download-section">
+            <div class="section-title"><i class="fas fa-download"></i> Download Video</div>
+
+            <div class="platform-selector" id="platformSelector">
+                <div class="platform-btn active" data-platform="tiktok"><i class="fab fa-tiktok"></i> TikTok</div>
+                <div class="platform-btn" data-platform="youtube"><i class="fab fa-youtube"></i> YouTube</div>
+            </div>
+
+            <label for="videoUrl">Masukkan Link Video:</label>
+            <input id="videoUrl" class="url-input" placeholder="https://www.tiktok.com/@user/video/... or https://www.youtube.com/watch?v=..." />
+
+            <button id="processBtn" class="download-btn"><i class="fas fa-cogs"></i> Proses Video</button>
+
+            <div id="successAlert" class="alert success"></div>
+            <div id="errorAlert" class="alert error"></div>
+
+            <div id="loading" class="loading">
+                <div class="loader-keren"></div>
+                <div style="color:white">Memproses...</div>
+            </div>
+        </div>
+
+        <div class="info-section">
+            <div class="section-title"><i class="fas fa-info-circle"></i> Informasi</div>
+            <div style="color:#4a5568">
+                <p>Gunakan dengan bijak. Hanya untuk penggunaan pribadi.</p>
+                <ul style="padding-left:18px;margin-top:10px;color:#4a5568">
+                    <li>Masukkan link TikTok atau YouTube</li>
+                    <li>Support short TikTok (vt.tiktok.com) — backend resolve</li>
+                    <li>All YouTube formats akan ditampilkan</li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <h1>Video Downloader Pro</h1>
-    <p>Download TikTok & YouTube tanpa watermark — cepat & gratis.</p>
-</header>
 
-<div class="alert success" id="successAlert"></div>
-<div class="alert error" id="errorAlert"></div>
+    <div id="resultSection" class="result-section">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="section-title"><i class="fas fa-film"></i> Hasil Video</div>
+            <button id="resetBtn" class="download-btn" style="width:auto;background:#888">Download Baru</button>
+        </div>
 
-<div class="main-content">
+        <div class="video-preview"><img id="videoThumbnail" src="" alt="thumbnail" /></div>
+        <h3 id="videoTitle"></h3>
+        <p id="videoDescription" style="color:#4a5568"></p>
 
-<!-- DOWNLOAD BOX -->
-<div class="download-section">
-    <h2 class="section-title"><i class="fas fa-download"></i> Download Video</h2>
-
-    <div class="platform-selector">
-        <div class="platform-btn active" data-platform="tiktok"><i class="fab fa-tiktok"></i> TikTok</div>
-        <div class="platform-btn" data-platform="youtube"><i class="fab fa-youtube"></i> YouTube</div>
+        <div id="downloadOptions" class="download-options"></div>
     </div>
 
-    <label>Masukkan Link Video:</label>
-    <input type="text" id="videoUrl" class="url-input" placeholder="https://www.tiktok.com/@user/video/...">
-
-    <button class="download-btn" id="processBtn"><i class="fas fa-cogs"></i> Proses Video</button>
-
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Memproses video...</p>
-    </div>
-</div>
-
-<!-- INFO BOX -->
-<div class="info-section">
-    <h2 class="section-title"><i class="fas fa-info-circle"></i> Informasi</h2>
-    <p>Gunakan dengan bijak. Hanya untuk penggunaan pribadi.</p>
-</div>
-
-</div>
-
-<!-- RESULT SECTION -->
-<div class="result-section" id="resultSection">
-    <h2 class="section-title"><i class="fas fa-film"></i> Hasil Video</h2>
-
-    <div class="video-preview"><img id="videoThumbnail"></div>
-    <h3 id="videoTitle"></h3>
-    <p id="videoDescription"></p>
-
-    <div class="download-options" id="downloadOptions"></div>
-</div>
-
-<footer><p>© 2023 Video Downloader Pro</p></footer>
-
+    <footer><p>© 2023 Video Downloader Pro</p></footer>
 </div>
 
 <script>
+(function(){
+  const platformBtns = document.querySelectorAll('.platform-btn');
+  const videoUrl = document.getElementById('videoUrl');
+  const processBtn = document.getElementById('processBtn');
+  const loading = document.getElementById('loading');
+  const successAlert = document.getElementById('successAlert');
+  const errorAlert = document.getElementById('errorAlert');
+  const resultSection = document.getElementById('resultSection');
+  const videoThumbnail = document.getElementById('videoThumbnail');
+  const videoTitle = document.getElementById('videoTitle');
+  const videoDescription = document.getElementById('videoDescription');
+  const downloadOptions = document.getElementById('downloadOptions');
+  const resetBtn = document.getElementById('resetBtn');
 
-let selectedPlatform = "tiktok";
+  let selectedPlatform = 'tiktok';
 
-document.querySelectorAll(".platform-btn").forEach(btn => {
-    btn.onclick = () => {
-        document.querySelectorAll(".platform-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        selectedPlatform = btn.dataset.platform;
+  platformBtns.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      platformBtns.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedPlatform = btn.dataset.platform;
+      hideAlerts();
+      resultSection.style.display='none';
+    });
+  });
 
-        if (selectedPlatform === "youtube") {
-            alert("YouTube belum tersedia.");
+  function showError(msg){ errorAlert.style.display='block'; errorAlert.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + msg; }
+  function showSuccess(msg){ successAlert.style.display='block'; successAlert.innerHTML = '<i class="fas fa-check-circle"></i> ' + msg; }
+  function hideAlerts(){ errorAlert.style.display='none'; successAlert.style.display='none'; }
+
+  async function fetchTikTokAPI(url){
+    const res = await fetch('/api/tiktok?url=' + encodeURIComponent(url));
+    if(!res.ok) throw new Error('Backend error');
+    return res.json();
+  }
+
+  async function fetchYouTubeAPI(url){
+    // public API (no key)
+    const res = await fetch('https://yt.jayvii.de/api/info?url=' + encodeURIComponent(url));
+    if(!res.ok) throw new Error('YouTube API error');
+    return res.json();
+  }
+
+  function renderFormats(formats){
+    downloadOptions.innerHTML = '';
+    formats.forEach(fmt=>{
+      const div = document.createElement('div');
+      div.className = 'option-btn';
+      const quality = fmt.quality || fmt.qualityLabel || fmt.label || fmt.format || 'unknown';
+      div.innerHTML = `<div><strong>${quality}</strong></div><i class="fas fa-download"></i>`;
+      div.addEventListener('click', ()=>{ window.open(fmt.url, '_blank') });
+      downloadOptions.appendChild(div);
+    });
+  }
+
+  async function processVideo(){
+    hideAlerts();
+    resultSection.style.display='none';
+    downloadOptions.innerHTML='';
+    const link = videoUrl.value.trim();
+    if(!link){ showError('Silakan masukkan link video'); return; }
+
+    loading.style.display='block';
+
+    try{
+      if(selectedPlatform==='tiktok'){
+        if(!/tiktok\.com|vt\.tiktok\.com/.test(link)) throw new Error('Link TikTok tidak valid.');
+
+        const api = await fetchTikTokAPI(link);
+        // expected fields: description, author.nickname, cover, downloadUrl
+        const data = {
+          title: api.description || 'Video TikTok',
+          description: api.author?.nickname || '',
+          thumbnail: api.cover || '',
+          options: [{ quality: 'MP4 (No Watermark)', url: api.downloadUrl }]
+        };
+        videoThumbnail.src = data.thumbnail;
+        videoTitle.textContent = data.title;
+        videoDescription.textContent = data.description;
+        renderFormats(data.options);
+      } else {
+        if(!/youtube\.com|youtu\.be/.test(link)) throw new Error('Link YouTube tidak valid.');
+        const api = await fetchYouTubeAPI(link);
+        // api may return formats array or .formats
+        const formats = api.formats || api.formats || api.data?.formats || api.formats_list || [];
+        // normalize formats to [{quality, url}]
+        const out = [];
+        if(Array.isArray(formats) && formats.length){
+          formats.forEach(f=>{
+            // possible keys: quality, qualityLabel, itagQuality, url, download
+            const url = f.url || f.downloadUrl || f.file || f.src || f.signatureCipher || f.signature || null;
+            // if signatureCipher present, skip (public API likely gives direct url)
+            const quality = f.quality || f.qualityLabel || f.label || f.format || (f.itag ? String(f.itag) : 'unknown');
+            if(f.url) out.push({quality, url: f.url});
+            else if(f.download) out.push({quality, url: f.download});
+            // ignore entries without url
+          });
+        } else {
+          // some APIs return object with "formats" keyed differently
+          if(api.formats && Array.isArray(api.formats)){
+            api.formats.forEach(f=>{
+              if(f.url) out.push({quality: f.quality || f.qualityLabel || 'unknown', url: f.url});
+            });
+          }
         }
-    };
-});
 
-function showError(msg) {
-    const el = document.getElementById("errorAlert");
-    el.style.display = "block";
-    el.innerHTML = `<i class='fas fa-exclamation-circle'></i> ${msg}`;
-}
+        // fallback: if api has "formats" named differently (yt.jayvii returns 'formats')
+        if(out.length===0 && api.formats && Array.isArray(api.formats)){
+          api.formats.forEach(f=>{ if(f.url) out.push({quality: f.quality || f.qualityLabel || f.label || 'unknown', url: f.url}); });
+        }
 
-function showSuccess(msg) {
-    const el = document.getElementById("successAlert");
-    el.style.display = "block";
-    el.innerHTML = `<i class='fas fa-check-circle'></i> ${msg}`;
-}
+        // If still empty, try api.formats from top-level entries
+        if(out.length===0 && api.formats && typeof api.formats === 'object'){
+          for(const k in api.formats){
+            const f = api.formats[k];
+            if(f && f.url) out.push({quality: f.quality || f.label || k, url: f.url});
+          }
+        }
 
-function displayVideoData(data) {
-    document.getElementById("resultSection").style.display = "block";
+        // final fallback: if api.formats not available, but api.formats_list or api.streams exist
+        if(out.length===0 && api.formats_list && Array.isArray(api.formats_list)){
+          api.formats_list.forEach(f=>{ if(f.url) out.push({quality: f.quality||f.label||'unknown', url:f.url}); });
+        }
 
-    document.getElementById("videoThumbnail").src = data.thumbnail;
-    document.getElementById("videoTitle").innerText = data.title;
-    document.getElementById("videoDescription").innerText = data.description;
+        // Set UI
+        videoThumbnail.src = api.thumbnail || '';
+        videoTitle.textContent = api.title || 'YouTube Video';
+        videoDescription.textContent = api.author || api.uploader || '';
+        if(out.length===0){
+          throw new Error('Tidak ada format tersedia dari API YouTube.');
+        }
+        renderFormats(out);
+      }
 
-    document.getElementById("downloadOptions").innerHTML = `
-        <div class="option-btn" onclick="window.open('${data.url}', '_blank')">
-            <div>
-                <div class="quality">MP4 (Tanpa Watermark)</div>
-            </div>
-            <i class="fas fa-download"></i>
-        </div>
-    `;
-}
-
-async function processVideo() {
-    const url = document.getElementById("videoUrl").value.trim();
-
-    document.getElementById("loading").style.display = "block";
-    document.getElementById("successAlert").style.display = "none";
-    document.getElementById("errorAlert").style.display = "none";
-
-    if (!url.includes("tiktok.com")) {
-        showError("Masukkan link TikTok yang valid.");
-        document.getElementById("loading").style.display = "none";
-        return;
+      resultSection.style.display='block';
+      showSuccess('Video berhasil diproses!');
+    } catch(err){
+      console.error(err);
+      showError(err.message || 'Gagal memproses video.');
+    } finally{
+      loading.style.display='none';
     }
+  }
 
-    try {
-        const res = await fetch(`/api/tiktok?url=${encodeURIComponent(url)}`);
-        if (!res.ok) throw new Error();
+  processBtn.addEventListener('click', processVideo);
+  resetBtn.addEventListener('click', ()=>{ videoUrl.value=''; resultSection.style.display='none'; hideAlerts(); });
 
-        const api = await res.json();
+  // allow Enter key
+  document.getElementById('videoUrl').addEventListener('keydown', function(e){ if(e.key==='Enter') processVideo(); });
 
-        displayVideoData({
-            title: api.description,
-            description: api.author.nickname,
-            thumbnail: api.cover,
-            url: api.downloadUrl
-        });
-
-        showSuccess("Video berhasil diproses!");
-    }
-    catch(err) {
-        showError("Gagal memproses. Coba lagi.");
-    }
-
-    document.getElementById("loading").style.display = "none";
-}
-
-document.getElementById("processBtn").onclick = processVideo;
-
+})();
 </script>
-
 </body>
 </html>
