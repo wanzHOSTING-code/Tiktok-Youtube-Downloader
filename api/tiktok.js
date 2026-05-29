@@ -1,28 +1,33 @@
-export default async function handler(req, res) {
-  const { url } = req.query;
-  if (!url) return res.status(400).json({ error: 'URL missing' });
+export default async function handler(req, res) { const { url } = req.query;
 
-  try {
-    // resolve redirect for short links
-    const r = await fetch(url, { method: 'GET', redirect: 'follow' });
-    const finalUrl = r.url || url;
+if (!url) { return res.status(400).json({ status: false, error: "URL TikTok wajib diisi" }); }
 
-    const apiRes = await fetch(
-      `https://tiktok-video-downloader-api.p.rapidapi.com/media?videoUrl=${encodeURIComponent(finalUrl)}`,
-      {
-        method: 'GET',
-        headers: {
-          'x-rapidapi-host': 'tiktok-video-downloader-api.p.rapidapi.com',
-          'x-rapidapi-key': '3e12ed444fmsh5e4928099ff7e2ep168ae3jsn3e8ada08b03e'
-        }
-      }
-    );
+try { // Resolve short link TikTok const response = await fetch(url, { method: "GET", redirect: "follow" });
 
-    const data = await apiRes.json();
-    if (!apiRes.ok) return res.status(500).json({ error: data });
+const finalUrl = response.url || url;
 
-    return res.status(200).json(data);
-  } catch (err) {
-    return res.status(500).json({ error: 'Server error', detail: err.message });
-  }
+// API TikWM
+const api = await fetch(
+  `https://www.tikwm.com/api/?url=${encodeURIComponent(finalUrl)}`
+);
+
+const data = await api.json();
+
+if (!data || !data.data) {
+  return res.status(500).json({
+    status: false,
+    error: "Gagal mengambil video"
+  });
 }
+
+return res.status(200).json({
+  status: true,
+  title: data.data.title,
+  author: data.data.author?.nickname,
+  cover: data.data.cover,
+  music: data.data.music,
+  video: data.data.play,
+  video_hd: data.data.hdplay
+});
+
+} catch (err) { return res.status(500).json({ status: false, error: err.message }); } }
